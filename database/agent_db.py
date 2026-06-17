@@ -26,4 +26,13 @@ class AgentsDB:
         conn.close()
         return rows
     
-    
+    def get_soldier_by_id(self, id:int):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("select * from agents where id = %s", (id,))
+        conn.commit()
+        row = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return row
+
