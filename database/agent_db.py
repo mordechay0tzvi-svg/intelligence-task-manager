@@ -100,12 +100,10 @@ class AgentsDB:
     def count_active_agents(self):
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("select * from agents where active")
+        cursor.execute("select count(*) from agents where is_active")
         active  = cursor.fetchall()
         cursor.close()
         conn.close()
-        if not active:
-            return []
         return active
     
 
