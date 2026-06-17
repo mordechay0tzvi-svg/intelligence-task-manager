@@ -76,6 +76,19 @@ Rules: This rules must be kept by the objects that manages the data tables.
 10. only assined and new missions can be cancelled.
 
 
+How to run: Instructions.
+
+run: docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0
+
+then use the managers to work with the database and the tables inside.
+
+
+
+
+
+
+
+       
 
 
 
