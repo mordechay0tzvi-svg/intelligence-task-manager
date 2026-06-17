@@ -70,7 +70,7 @@ class MissionsDB:
     def get_open_missions_by_agent(self, id:int):
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("select * from missions where status = 'ASSIGNED' or status = 'IN_PROGRESS' and id = %s", (id,))
+        cursor.execute("select * from missions where id = %s and status = 'ASSIGNED' or status = 'IN_PROGRESS'", (id,))
         rows = cursor.fetchall()
         cursor.close()
         conn.close()
@@ -125,7 +125,8 @@ class MissionsDB:
         conn.close()
         return top
 
-
+m = MissionsDB()
+print(len(m.get_open_missions_by_agent(1)))
 
 
 

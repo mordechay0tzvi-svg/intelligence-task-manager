@@ -7,3 +7,10 @@ def dicide_risklevel(num:int):
         return 'HIGH'
     elif num >= 25:
         return 'CRITICAL'
+    
+def check_difficulty_or_importance(num:int):
+    return 1 <= num <= 10
+
+def rank_validater(agent_rank:str):
+    return agent_rank in ['Senior', 'Junior', 'Commander']
+
