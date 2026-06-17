@@ -31,9 +31,21 @@ class MissionsDB:
         cursor.close()
         conn.close()
         if not rows:
-            return[]
+            return []
         return rows
     
+    def get_mission_by_id(self, id:int):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("select * from missions where id = %s", (id,))
+        row = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        if not row:
+            return None
+        return row
+
+
 
 
 

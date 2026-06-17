@@ -107,8 +107,3 @@ class AgentsDB:
         return active
     
     
-
-
-    
-
-
