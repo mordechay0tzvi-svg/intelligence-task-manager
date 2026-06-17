@@ -106,8 +106,6 @@ class AgentsDB:
         conn.close()
         return active
     
-adb = AgentsDB()
-print(adb.count_active_agents())
     
 
 
