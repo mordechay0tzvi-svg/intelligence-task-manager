@@ -78,13 +78,20 @@ class MissionsDB:
     
     def count_all_missions(self):
         conn = c.get_connector()
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor()
         cursor.execute("select count(*) from missions")
-        rows = cursor.fetchall()[0]
+        rows = cursor.fetchone()[0]
         cursor.close()
         conn.close()
-        if not rows:
-            return []
+        return rows
+    
+    def count_by_status(swlf, status:str):
+        conn = c.get_connector()
+        cursor = conn.cursor()
+        cursor.execute("select count(*) from missions where status = %s", (status,))
+        rows = cursor.fetchone()[0]
+        cursor.close()
+        conn.close()
         return rows
 
 
