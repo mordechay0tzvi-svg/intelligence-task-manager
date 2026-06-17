@@ -45,6 +45,29 @@ class MissionsDB:
             return None
         return row
 
+    def assign_mission(self, m_id:int, a_id:int):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("update missions set assingned_agent_id = %s where id = %s", (a_id, m_id))
+        assigend = cursor.rowcount > 0
+        cursor.close()
+        conn.close()
+        return assigend
+    
+    def update_mission_status(self, id:int, status:str):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("update missions set status = %s where id = %s", (status ,id))
+        conn.commit()
+        updated = cursor.rowcount > 0
+        cursor.close()
+        conn.close()
+        return updated
+            
+m = MissionsDB()
+m.update_mission_status(1, 'CANCELLED')
+
+
 
 
 
