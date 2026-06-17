@@ -1,17 +1,19 @@
 from db_connection import c
+from utils import dicide_risklevel
 
 class MissionsDB:
     def __init__(self):
         pass
-    
+
     def create_mission(self,data:dict):
         difficulty = data["difficulty"]
         importance = data["importance"]
-        risklevel = difficulty * 2 + importance
+        risklevel_number = difficulty * 2 + importance
+        risklevel = dicide_risklevel(risklevel_number)
         conn = c.get_connector()
         cursor = conn.cursor()
         sql = """insert into missions(title, description, location, difficulty, importance, status, risk_level, assingned_agent_id) values(%s,%s,%s,%s,%s,%s,%s,%s)"""
-        values = (data['title'], data['description'], data['location'], difficulty, importance, 'NEW', risklevel, data["assigned_agent_id"])
+        values = (data['title'], data['description'], data['location'], difficulty, importance, 'NEW', risklevel, None)
         cursor.execute(sql, values)
         new_id = cursor.lastrowid
         conn.commit()
@@ -114,12 +116,16 @@ class MissionsDB:
     
     def get_top_agent(self):
         conn = c.get_connector()
-        cursor = conn.cursor()
-        cursor.execute("select count(assingned_agent_id) from missions group by assingned_agent_id")
-        rows = cursor.fetchall()[0]
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT assingned_agent_id, count(*) as t FROM missions group by assingned_agent_id order by t desc limit 1")
+        top_agent_id = cursor.fetchone()["assingned_agent_id"]
+        cursor.execute("select * from agents where id = %s",(top_agent_id, ))
+        top = cursor.fetchone()
         cursor.close()
         conn.close()
-        return rows
+        return top
+
+
 
 
 
