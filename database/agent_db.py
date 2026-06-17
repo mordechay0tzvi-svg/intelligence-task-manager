@@ -45,7 +45,7 @@ class AgentsDB:
     def update_agent(self, id:int, data:dict):
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
-        sql = """update agents set(name = %s, scecialty = %s, is_active = %s, completed_missions = %s, failed_missions = %s, agent_rank = %s) where id = %s"""
+        sql = """update agents set name = %s, scecialty = %s, is_active = %s, completed_missions = %s, failed_missions = %s, agent_rank = %s where id = %s"""
         values = (data['name'], data['specialty'], data['is_active'], data['completed_missions'], data['failed_missions'], data['agent_rank'], id)
         cursor.execute(sql, values)
         conn.commit()
@@ -53,4 +53,52 @@ class AgentsDB:
         cursor.close()
         conn.close()
         return updated
+
+    def deactivate_soldier(self, id:int):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("update agents set is_active = False where id = %s", (id,))
+        conn.commit()
+        deactivated = cursor.rowcount > 0
+        cursor.close()
+        conn.close()
+        return deactivated
+    
+    def increment_completed(self, id:int):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("update agents set completed_missions = completed_missions + 1 where id = %s", (id,))
+        conn.commit()
+        incremented = cursor.rowcount > 0
+        cursor.close()
+        conn.close()
+        return incremented
+
+    def increment_failed(self, id:int):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("update agents set failed_missions = failed_missions + 1 where id = %s", (id,))
+        conn.commit()
+        incremented = cursor.rowcount > 0
+        cursor.close()
+        conn.close()
+        return incremented
+
+    def get_agent_performance(self, id:int):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("select completed_missions, failed_missions from agents where id = %s", (id,))
+        data  = cursor.fetchone()
+        performance = {}
+        performance["completed"], performance["failed"] = data["completed_missions"], data["failed_missions"]
+        performance["total"] = performance["completed_missions"] + performance["failed_missions"]
+        performance['success_rate'] = (performance["completed_missions"] / performance["failed_missions"]) * 100 
+        cursor.close()
+        conn.close()
+        return performance
+    
+    
+
+    
+
 
