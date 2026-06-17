@@ -97,7 +97,20 @@ class AgentsDB:
         conn.close()
         return performance
     
+    def count_active_agents(self):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("select * from agents where active")
+        active  = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        if not active:
+            return []
+        return active
     
+
+    
+
 
     
 
