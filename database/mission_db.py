@@ -94,6 +94,34 @@ class MissionsDB:
         conn.close()
         return rows
 
+    def count_open_missions(self):
+        conn = c.get_connector()
+        cursor = conn.cursor()
+        cursor.execute("select count(*) from missions where status = 'NEW' or status = 'IN_PROGRESS' or status = 'ASSIGNED'")
+        rows = cursor.fetchone()[0]
+        cursor.close()
+        conn.close()
+        return rows
+    
+    def count_critical_missions(self):
+        conn = c.get_connector()
+        cursor = conn.cursor()
+        cursor.execute("select count(*) from missions where risk_level = 'CRITICAL'")
+        rows = cursor.fetchone()[0]
+        cursor.close()
+        conn.close()
+        return rows
+    
+    def get_top_agent(self):
+        conn = c.get_connector()
+        cursor = conn.cursor()
+        cursor.execute("select count(assingned_agent_id) from missions group by assingned_agent_id")
+        rows = cursor.fetchall()[0]
+        cursor.close()
+        conn.close()
+        return rows
+
+
 
 
 
