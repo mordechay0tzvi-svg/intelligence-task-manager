@@ -75,6 +75,17 @@ class MissionsDB:
         if not rows:
             return []
         return rows
+    
+    def count_all_missions(self):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("select count(*) from missions")
+        rows = cursor.fetchall()[0]
+        cursor.close()
+        conn.close()
+        if not rows:
+            return []
+        return rows
 
 
 
