@@ -29,7 +29,7 @@ class DBconnection:
         cursor.execute("""CREATE TABLE IF NOT EXISTS agents(
                        id INT AUTO_INCREMENT PRIMARY KEY,
                        name VARCHAR(100) NOT NULL,
-                       scecialty VARCHAR(50) NOT NULL,
+                       specialty VARCHAR(50) NOT NULL,
                        is_active BOOLEAN DEFAULT TRUE,
                        completed_missions INT NOT NULL,
                        failed_missions INT NOT NULL,
@@ -43,7 +43,7 @@ class DBconnection:
                        importance INT,
                        status VARCHAR(20) NOT NULL,
                        risk_level VARCHAR(20)  NOT NULL,
-                       assinged_agent_id INT)""")
+                       assingned_agent_id INT)""")
         conn.commit()
         cursor.close()
         conn.close()

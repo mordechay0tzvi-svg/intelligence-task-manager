@@ -10,7 +10,7 @@ class MissionsDB:
         risklevel = difficulty * 2 + importance
         conn = c.get_connector()
         cursor = conn.cursor()
-        sql = """insert into missions(title, description, location, difficulty, importance, status, risk_level, assinged_agent_id) values(%s,%s,%s,%s,%s,%s,%s,%s)"""
+        sql = """insert into missions(title, description, location, difficulty, importance, status, risk_level, assingned_agent_id) values(%s,%s,%s,%s,%s,%s,%s,%s)"""
         values = (data['title'], data['description'], data['location'], difficulty, importance, 'NEW', risklevel, data["assigned_agent_id"])
         cursor.execute(sql, values)
         new_id = cursor.lastrowid
@@ -23,12 +23,17 @@ class MissionsDB:
         new_mission['risk_level'] = risklevel
         return new_mission
     
-missions = MissionsDB()
-mission = {"title":"mission imposible",
-           "description":"tom cruise movie",
-           "location":"rome",
-           'difficulty':6,
-           "importance":7,
-           "assigned_agent_id":1}
+    def get_all_missions(self):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("select * from missions")
+        rows = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        if not rows:
+            return[]
+        return rows
+    
 
-print(missions.create_mission(mission))
+
+

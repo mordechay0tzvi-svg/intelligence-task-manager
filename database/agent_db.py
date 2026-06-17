@@ -7,7 +7,7 @@ class AgentsDB:
     def create_agent(self, data:dict):
         conn = c.get_connector()
         cursor = conn.cursor()
-        sql = """insert into agents(name, scecialty, completed_missions, failed_missions, agent_rank) values(%s,%s,%s,%s,%s)"""
+        sql = """insert into agents(name, specialty, completed_missions, failed_missions, agent_rank) values(%s,%s,%s,%s,%s)"""
         values = (data['name'], data['specialty'], data['completed_missions'], data['failed_missions'], data['agent_rank'])
         cursor.execute(sql, values)
         new_id = cursor.lastrowid
@@ -45,7 +45,7 @@ class AgentsDB:
     def update_agent(self, id:int, data:dict):
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
-        sql = """update agents set name = %s, scecialty = %s, is_active = %s, completed_missions = %s, failed_missions = %s, agent_rank = %s where id = %s"""
+        sql = """update agents set name = %s, specialty = %s, is_active = %s, completed_missions = %s, failed_missions = %s, agent_rank = %s where id = %s"""
         values = (data['name'], data['specialty'], data['is_active'], data['completed_missions'], data['failed_missions'], data['agent_rank'], id)
         cursor.execute(sql, values)
         conn.commit()
