@@ -1,4 +1,4 @@
-from database.db_connection import c
+from db_connection import c
 
 class AgentsDB:
     def __init__(self):
@@ -91,22 +91,23 @@ class AgentsDB:
         data  = cursor.fetchone()
         performance = {}
         performance["completed"], performance["failed"] = data["completed_missions"], data["failed_missions"]
-        performance["total"] = performance["completed_missions"] + performance["failed_missions"]
-        performance['success_rate'] = (performance["completed_missions"] / performance["failed_missions"]) * 100 
+        performance["total"] = performance["completed"] + performance["failed"]
+        performance['success_rate'] = (performance["completed"] / performance["total"]) * 100 
         cursor.close()
         conn.close()
         return performance
     
     def count_active_agents(self):
         conn = c.get_connector()
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor()
         cursor.execute("select count(*) from agents where is_active")
-        active  = cursor.fetchall()
+        active  = cursor.fetchone()[0]
         cursor.close()
         conn.close()
         return active
     
-
+adb = AgentsDB()
+print(adb.count_active_agents())
     
 
 
