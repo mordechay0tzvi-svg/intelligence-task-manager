@@ -48,8 +48,9 @@ class MissionsDB:
     def assign_mission(self, m_id:int, a_id:int):
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("update missions set assingned_agent_id = %s where id = %s", (a_id, m_id))
+        cursor.execute("update missions set assingned_agent_id = %s, status = 'ASSIGNED' where id = %s", (a_id, m_id))
         assigend = cursor.rowcount > 0
+        conn.commit()
         cursor.close()
         conn.close()
         return assigend
@@ -64,8 +65,18 @@ class MissionsDB:
         conn.close()
         return updated
             
-m = MissionsDB()
-m.update_mission_status(1, 'CANCELLED')
+    def get_open_missions_by_agent(self, id:int):
+        conn = c.get_connector()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("select * from missions where status = 'ASSIGNED' or status = 'IN_PROGRESS' and id = %s", (id,))
+        rows = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        if not rows:
+            return []
+        return rows
+
+
 
 
 
