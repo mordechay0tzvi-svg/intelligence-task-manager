@@ -1,7 +1,5 @@
 from database.agent_db import adb
-
 from fastapi import Body, Query, APIRouter, HTTPException
-
 from pydantic import BaseModel
 
 class Agent(BaseModel):

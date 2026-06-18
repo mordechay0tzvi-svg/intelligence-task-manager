@@ -1,6 +1,6 @@
 from database.mission_db import mdb
 from database.agent_db import adb
-
+from logs.logger import logger
 from fastapi import Body, Query, APIRouter, HTTPException
 
 router = APIRouter()
