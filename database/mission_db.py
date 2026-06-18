@@ -135,7 +135,7 @@ class MissionsDB:
         return top
 
 
-
+mdb = MissionsDB()
 
 
 

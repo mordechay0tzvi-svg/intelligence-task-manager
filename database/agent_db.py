@@ -105,5 +105,5 @@ class AgentsDB:
         cursor.close()
         conn.close()
         return active
-    
-    
+
+adb = AgentsDB()   
