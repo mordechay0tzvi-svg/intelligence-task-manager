@@ -21,8 +21,8 @@ def add_agent(data:Agent =Body(...)):
             raise HTTPException(422, f"{f} is missing")
     if data["agent_rank"] not in adb.valid_ranks:
         raise HTTPException(400, "Invalid rank")
-    adb.create_agent(data)
-    return {201: "agent created"}
+    new_id = adb.create_agent(data)
+    return {201: ("agent created",adb.get_agent_by_id(new_id))}
 
 @router.get("/agents")
 def all_agents():

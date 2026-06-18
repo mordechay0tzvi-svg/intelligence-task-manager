@@ -13,6 +13,7 @@ def dicide_risklevel(num:int):
 class MissionsDB:
     def __init__(self):
         pass
+    range = [1,2,3,4,5,6,7,8,9,10]
 
     def create_mission(self,data:dict):
         difficulty = data["difficulty"]
@@ -28,11 +29,7 @@ class MissionsDB:
         conn.commit()
         cursor.close()
         conn.close()
-        new_mission = data
-        new_mission["id"] = new_id
-        new_mission['status'] = 'NEW'
-        new_mission['risk_level'] = risklevel
-        return new_mission
+        return new_id
     
     def get_all_missions(self):
         conn = c.get_connector()
@@ -108,7 +105,7 @@ class MissionsDB:
     def count_open_missions(self):
         conn = c.get_connector()
         cursor = conn.cursor()
-        cursor.execute("select count(*) from missions where status = 'NEW' or status = 'IN_PROGRESS' or status = 'ASSIGNED'")
+        cursor.execute("select count(*) from missions where status = 'IN_PROGRESS' or status = 'ASSIGNED'")
         rows = cursor.fetchone()[0]
         cursor.close()
         conn.close()
