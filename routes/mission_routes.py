@@ -87,19 +87,19 @@ def complete_mission(id:int):
     return {"message":"mission completed successfully"}
 
 @router.put("/missions/{id}/fail")
-def fail_nission(id:int):
+def fail_mission(id:int):
     mission = mdb.get_mission_by_id(id)
     if not mission:
         raise HTTPException(404, "mission not found")
     agent_id = mission["assingned_agent_id"]
-    if mission["status"] != "PROGRESS_IN":
+    if mission["status"] != "IN_PROGRESS":
         raise HTTPException(400, "Only in progress mission can be failed")
     mdb.update_mission_status(id, 'FAILED')
     adb.increment_failed(agent_id)
     return {"message":"mission failed successfully"}
 
 @router.put("/missions/{id}/cancel")
-def cancel_nission(id:int):
+def cancel_mission(id:int):
     mission = mdb.get_mission_by_id(id)
     if not mission:
         raise HTTPException(404, "mission not found")
@@ -107,6 +107,7 @@ def cancel_nission(id:int):
     if mission["status"] not in ["NEW", "ASSIGNED"]:
         raise HTTPException(400, "Mission cannot be cancelled")
     mdb.update_mission_status(id, 'CANCELLED')
+    adb.increment_failed(agent_id)
     return {"message":"mission cancelled successfully"}
 
 

@@ -121,7 +121,7 @@ How to run: instructions.
 
 run: docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0
 
-then run the server and use route to manage agents and missions.
+then run the server on main.py and use route to manage agents and missions.
 
 
 fix to fullimports if routes tommorow!!
