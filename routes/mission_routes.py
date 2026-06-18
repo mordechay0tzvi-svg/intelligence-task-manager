@@ -2,10 +2,9 @@ from database.mission_db import mdb
 from database.agent_db import adb
 from logs.logger import logger
 from fastapi import Body, Query, APIRouter, HTTPException
+from pydantic import BaseModel
 
 router = APIRouter()
-
-from pydantic import BaseModel
 
 class Mission(BaseModel):
     title:str

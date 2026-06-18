@@ -12,6 +12,7 @@ app.include_router(mission_router)
 app.include_router(report_router)
 
 if __name__=="__main__":
-    logger.info('server up')
+    logger.info('Server is up')
     uvicorn.run(app, host="localhost", port=8000)
+logger.info("Server is down")
 
