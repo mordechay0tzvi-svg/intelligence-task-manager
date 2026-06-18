@@ -1,5 +1,6 @@
 from db_connection import c
 from utils import dicide_risklevel
+from utils import updading_data
 
 class MissionsDB:
     def __init__(self):
@@ -70,7 +71,7 @@ class MissionsDB:
     def get_open_missions_by_agent(self, id:int):
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("select * from missions where id = %s and status = 'ASSIGNED' or status = 'IN_PROGRESS'", (id,))
+        cursor.execute("select * from missions where assingned_agent_id = %s and status in ('ASSIGNED', 'IN_PROGRESS')", (id,))
         rows = cursor.fetchall()
         cursor.close()
         conn.close()
@@ -125,8 +126,6 @@ class MissionsDB:
         conn.close()
         return top
 
-m = MissionsDB()
-print(len(m.get_open_missions_by_agent(1)))
 
 
 
