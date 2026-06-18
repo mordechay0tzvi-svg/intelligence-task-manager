@@ -1,5 +1,4 @@
 from db_connection import c
-from utils import dynamic_agent_updading
 
 class AgentsDB:
     def __init__(self):
@@ -42,9 +41,8 @@ class AgentsDB:
         if not row:
             return None
         return row
-
-    def update_agent(self, id:int, data:dict):
-        data = dynamic_agent_updading(data)
+   
+    def update_agent(self, id:int, data:dict): 
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
         sql = """update agents set name = %s, specialty = %s, is_active = %s, completed_missions = %s, failed_missions = %s, agent_rank = %s where id = %s"""

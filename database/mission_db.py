@@ -1,5 +1,14 @@
 from db_connection import c
-from utils import dicide_risklevel
+
+def dicide_risklevel(num:int):
+    if 0 <= num <= 9:
+        return 'LOW'
+    elif 10 <= num <= 17:
+        return 'MEDIUM'
+    elif 18 <= num <= 24:
+        return 'HIGH'
+    elif num >= 25:
+        return 'CRITICAL'
 
 class MissionsDB:
     def __init__(self):
