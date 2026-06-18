@@ -30,7 +30,7 @@ def missions_by_status():
     if not adb.get_all_agents() or not mdb.get_all_missions():
         return {"open": 0,"in_progress": 0,"completed": 0,"failed": 0,"cancelled": 0}
     return {
-            "open": mdb.count_by_status("NEW") + mdb.count_by_status("NEW"),
+            "open": mdb.count_open_missions(),
             "in_progress": mdb.count_by_status("IN_PROGRESS"),
             "completed": mdb.count_by_status("COMPLETED"),
             "failed": mdb.count_by_status("FAILED"),

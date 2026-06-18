@@ -124,7 +124,8 @@ run: docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQ
 then run the server on main.py and use route to manage agents and missions.
 
 
-fix to fullimports if routes tommorow!!
+fail, complete, start, deactivate, case sensitive rank?
+
 
 
 
