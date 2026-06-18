@@ -1,4 +1,4 @@
-from db_connection import c
+from database.db_connection import c
 
 class AgentsDB:
     def __init__(self):

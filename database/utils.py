@@ -1,7 +1,3 @@
-from agent_db import get_agent_by_id
-
-
-    
 def check_difficulty_or_importance(num:int):
     return 1 <= num <= 10
 

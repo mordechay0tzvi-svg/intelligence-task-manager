@@ -1,4 +1,4 @@
-from db_connection import c
+from database.db_connection import c
 
 def dicide_risklevel(num:int):
     if 0 <= num <= 9:

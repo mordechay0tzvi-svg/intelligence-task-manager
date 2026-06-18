@@ -17,7 +17,7 @@ def get_angent(id:int):
     pass
 
 @router.put("/agents/{id}")
-def update_agent(id:int, data:dict=Body(...))
+def update_agent(id:int, data:dict=Body(...)):
     pass
 
 @router.put("/agents/{id}")
