@@ -4,6 +4,8 @@ class AgentsDB:
     def __init__(self):
         pass
 
+    valid_ranks = ["Junior", "Senior", "Commander"]
+
     def create_agent(self, data:dict):
         conn = c.get_connector()
         cursor = conn.cursor()
@@ -14,15 +16,12 @@ class AgentsDB:
         conn.commit()
         cursor.close()
         conn.close()
-        new_agent = data
-        new_agent["id"] = new_id
-        return new_agent
+        return new_id
     
     def get_all_agents(self):
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
         cursor.execute("""select * from agents""")
-        conn.commit()
         rows = cursor.fetchall()
         cursor.close()
         conn.close()
@@ -30,11 +29,10 @@ class AgentsDB:
             return []
         return rows
     
-    def get_soldier_by_id(self, id:int):
+    def get_agent_by_id(self, id:int):
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
         cursor.execute("select * from agents where id = %s", (id,))
-        conn.commit()
         row = cursor.fetchone()
         cursor.close()
         conn.close()
@@ -43,10 +41,13 @@ class AgentsDB:
         return row
    
     def update_agent(self, id:int, data:dict): 
+        agent = self.get_agent_by_id(id)
+        for k, v in data.items():
+            agent[k] = v 
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
         sql = """update agents set name = %s, specialty = %s, is_active = %s, completed_missions = %s, failed_missions = %s, agent_rank = %s where id = %s"""
-        values = (data['name'], data['specialty'], data['is_active'], data['completed_missions'], data['failed_missions'], data['agent_rank'], id)
+        values = (agent['name'], agent['specialty'], agent['is_active'], agent['completed_missions'], agent['failed_missions'], agent['agent_rank'], id)
         cursor.execute(sql, values)
         conn.commit()
         updated = cursor.rowcount > 0
@@ -54,7 +55,7 @@ class AgentsDB:
         conn.close()
         return updated
 
-    def deactivate_soldier(self, id:int):
+    def deactivate_agent(self, id:int):
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
         cursor.execute("update agents set is_active = False where id = %s", (id,))
@@ -92,6 +93,8 @@ class AgentsDB:
         performance = {}
         performance["completed"], performance["failed"] = data["completed_missions"], data["failed_missions"]
         performance["total"] = performance["completed"] + performance["failed"]
+        if performance["total"] == 0:
+            return {"message":"no missions yet"}
         performance['success_rate'] = (performance["completed"] / performance["total"]) * 100 
         cursor.close()
         conn.close()
