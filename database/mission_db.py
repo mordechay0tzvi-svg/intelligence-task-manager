@@ -1,6 +1,5 @@
 from db_connection import c
 from utils import dicide_risklevel
-from utils import updading_data
 
 class MissionsDB:
     def __init__(self):
@@ -118,15 +117,13 @@ class MissionsDB:
     def get_top_agent(self):
         conn = c.get_connector()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT assingned_agent_id, count(*) as t FROM missions group by assingned_agent_id order by t desc limit 1")
+        cursor.execute("SELECT assingned_agent_id, count(status) as t FROM missions where status = 'COMPLETED' group by assingned_agent_id order by t desc limit 1")
         top_agent_id = cursor.fetchone()["assingned_agent_id"]
         cursor.execute("select * from agents where id = %s",(top_agent_id, ))
         top = cursor.fetchone()
         cursor.close()
         conn.close()
         return top
-
-
 
 
 

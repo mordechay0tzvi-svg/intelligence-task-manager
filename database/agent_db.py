@@ -8,8 +8,8 @@ class AgentsDB:
     def create_agent(self, data:dict):
         conn = c.get_connector()
         cursor = conn.cursor()
-        sql = """insert into agents(name, specialty, completed_missions, failed_missions, agent_rank) values(%s,%s,%s,%s,%s)"""
-        values = (data['name'], data['specialty'], data['completed_missions'], data['failed_missions'], data['agent_rank'])
+        sql = """insert into agents(name, specialty, agent_rank) values(%s,%s,%s)"""
+        values = (data['name'], data['specialty'], data['agent_rank'])
         cursor.execute(sql, values)
         new_id = cursor.lastrowid
         conn.commit()

@@ -1,4 +1,3 @@
-from mission_db import get_mission_by_id 
 from agent_db import get_agent_by_id
 
 def dicide_risklevel(num:int):

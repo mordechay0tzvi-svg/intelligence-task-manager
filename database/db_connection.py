@@ -31,8 +31,8 @@ class DBconnection:
                        name VARCHAR(100) NOT NULL,
                        specialty VARCHAR(50) NOT NULL,
                        is_active BOOLEAN DEFAULT TRUE,
-                       completed_missions INT NOT NULL,
-                       failed_missions INT NOT NULL,
+                       completed_missions INT DEFAULT 0,
+                       failed_missions INT DEFAULT 0,
                        agent_rank ENUM('Junior', 'Senior', 'Commander') NOT NULL)""")
         cursor.execute("""CREATE TABLE IF NOT EXISTS missions(
                        id INT AUTO_INCREMENT PRIMARY KEY,
