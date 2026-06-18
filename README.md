@@ -54,10 +54,17 @@ get_top_agent() -> the agent with most completed missions
 Files structure:
 
     intelligence-task-manager/
+    ├── main.py
     ├── database/
     │   ├── db_connection.py
     │   ├── agent_db.py
     │   └── mission_db.py
+    ├── routes/ 
+    │   ├── agent_routes.py
+    │   ├── mission_routes.py
+    │   └── report_routes.py
+    ├── logs/ 
+    │   └── app.log
     ├── README.md
     ├── requirements.txt
     └── .gitignore
@@ -76,11 +83,48 @@ Rules: This rules must be kept by the objects that manages the data tables.
 10. only assined and new missions can be cancelled.
 
 
+
+Agents endpoints:
+using AgentDB, will manage all the agent related routes.
+
+[POST] | /agents -> creates new agent
+[GET]  | /agents -> shows all agents
+[GET]  | /agents/{id} -> shows an agent by id
+[PUT]  | /agents/{id} -> updates agent info
+[PUT]  | /agents/{id}/deactivate -> deativates an agent
+[GET]  | /agents/{id}/performance -> shows the agent's performance
+
+
+Missions endpoints:
+using AgentDB and MissionDB, will manage all the agent related routes.
+
+[POST] | /missions -> create a mission
+[GET]  | /missions -> shows all missions
+[GET]  | /missions/{id} -> get a mission by id
+[PUT]  | /missions/{id}/assign/{agent_id} -> assignes a mission to an agent
+[PUT]  | /missions/{id}/start -> starts a mission
+[PUT]  | /missions/{id}/complete -> completes a mission
+[PUT]  | /missions/{id}/fail -> marks mission as failed
+[PUT]  | /missions/{id}/cancel -> cancels a mission
+
+
+Reports endpoints:
+[GET]  | /reports/summary -> shows a summary
+[GET]  | /reports/missions-by-status -> shows how many missions in every status
+[GET]  | /reports/top-agent -> shows agent with most completed missions
+
+
+
+
+
 How to run: instructions.
 
 run: docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0
 
-then use the managers to work with the database and the tables inside.
+then run the server and use route to manage agents and missions.
+
+
+fix to fullimports if routes tommorow!!
 
 
 
