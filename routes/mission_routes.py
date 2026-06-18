@@ -12,7 +12,7 @@ class Mission(BaseModel):
     description:str
     location:str
     difficulty:int
-    importace:int
+    importance:int
 
 
 @router.post("/missions")
@@ -75,12 +75,12 @@ def start_mission(id:int):
     return {"message": "mission started"}
 
 @router.put("/missions/{id}/complete")
-def complete_nission(id:int):
+def complete_mission(id:int):
     mission = mdb.get_mission_by_id(id)
     if not mission:
         raise HTTPException(404, "mission not found")
     agent_id = mission["assingned_agent_id"]
-    if mission["status"] != "PROGRESS_IN":
+    if mission["status"] != "IN_PROGRESS":
         raise HTTPException(400, "Only in progress mission can be completed")
     mdb.update_mission_status(id, 'COMPLETED')
     adb.increment_completed(agent_id)
