@@ -1,8 +1,6 @@
 from database.mission_db import mdb
 from database.agent_db import adb
 
-from main import logger
-
 from fastapi import Body, Query, APIRouter, HTTPException
 
 router = APIRouter()
@@ -42,4 +40,6 @@ def missions_by_status():
 
 @router.get("/reports/top-agent")
 def top_agent():
-    pass
+    if not adb.get_all_agents():
+        raise HTTPException(404, "No agents")
+    return mdb.get_top_agent()
