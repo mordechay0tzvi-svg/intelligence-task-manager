@@ -1,3 +1,9 @@
+import logging
+frmt = "%(asctime)s - %(levelname)s - %(message)s"
+logging.basicConfig(level=logging.INFO, format=frmt, filename='app.log')
+logger = logging.getLogger(__name__)
+
+
 from fastapi import FastAPI
 
 import uvicorn
@@ -12,4 +18,6 @@ app.include_router(mission_router)
 app.include_router(report_router)
 
 if __name__=="__main__":
+    logger.info("logger loading")
     uvicorn.run(app, host="localhost", port=8000)
+
